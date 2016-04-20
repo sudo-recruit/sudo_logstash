@@ -1,0 +1,19 @@
+input {
+  http {
+    codec => "json"
+  }
+}
+
+filter {
+  drop {
+    remove_field => [ "headers","host" ]
+  }
+}
+ 
+output {
+  elasticsearch{
+    hosts => ["<%= node['sudo_logstash']['elasticsearch_host'] %>"]
+    index => "logstash-%{+YYYY.MM}"
+  }
+
+}
